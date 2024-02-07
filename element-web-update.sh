@@ -21,6 +21,11 @@ VERSION_URL=https://api.github.com/repos/element-hq/element-web/releases/latest
 
 if [ -f ".env" ]; then source .env; fi
 
+if [ ! -d "$DIRECTORY_INSTALL" ]; then
+  echo "Install directory $DIRECTORY_INSTALL does not exist"
+  exit
+fi
+
 VERSION_INSTALLED=`if [ -f "$DIRECTORY_INSTALL/version" ]; then cat $DIRECTORY_INSTALL/version; else echo "null"; fi`
 VERSION_LATEST=`curl -s $VERSION_URL | jq -r '.name' | sed s/v//` || { echo "Error checking last Element version!"; exit 1; }
 
